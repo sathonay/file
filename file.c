@@ -18,6 +18,7 @@ struct s_file *load_file(char *file_path)
 	
 	int read_l = read(file_desc, buffer, BUFFER_SIZE - 1);
 	buffer[read_l - 1] = '\0';
+	
 	file_part = str_dllist_create_node(buffer);
 	file_s += read_l;
 	while(read_l == BUFFER_SIZE - 1)
@@ -29,8 +30,8 @@ struct s_file *load_file(char *file_path)
 	}
 
 	close(file_desc);
-	char *content = malloc(file_s + 1);
-	content[file_s--] = '\0';
+	char *content = malloc(file_s);
+	content[--file_s] = '\0';
 	file->size = file_s;
 
 	struct s_str_dlinked_list *last_node = file_part;
@@ -38,6 +39,7 @@ struct s_file *load_file(char *file_path)
 		last_node = last_node->next;
 	while (last_node)
 	{
+		
 		buffer_i = ft_strlen(last_node->str);
 		while (buffer_i > 0)
 		{
@@ -69,4 +71,5 @@ int main()
 {
 	struct s_file *file = load_file("test.txt");
 	printf("%s", file->content);
+	free_file(file);
 }
