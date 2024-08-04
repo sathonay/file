@@ -8,15 +8,19 @@
 
 struct s_file *load_file(char *file_path)
 {
+
+	int file_desc = open(file_path, O_RDONLY);
+
+	if (file_desc == -1)
+		return (NULL);
+	
 	struct s_file *file = malloc(sizeof(struct s_file));
 	struct s_str_dlinked_list *file_part;
 	unsigned int file_s = 0;
 	unsigned int buffer_i = 0;
 	char *buffer = malloc(BUFFER_SIZE);
-
-	int file_desc = open(file_path, O_RDONLY);
-	
 	int read_l = read(file_desc, buffer, BUFFER_SIZE - 1);
+	
 	buffer[read_l - 1] = '\0';
 	
 	file_part = str_dllist_create_node(buffer);

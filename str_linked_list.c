@@ -11,13 +11,14 @@ struct s_str_dlinked_list 	*str_dllist_create_node(char *str)
 	return list;
 }
 
-void	str_dllist_add_last(struct s_str_dlinked_list *list, char *str)
+struct s_str_dlinked_list 	*str_dllist_add_last(struct s_str_dlinked_list *list, char *str)
 {
 	struct s_str_dlinked_list *last_node = list;
 	while(last_node->next)
 		last_node = last_node->next;
 	last_node->next = str_dllist_create_node(str);
 	last_node->next->previous = last_node;
+	return (last_node->next);
 }
 
 void free_str_dlinked_node(struct s_str_dlinked_list *node)
