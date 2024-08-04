@@ -25,7 +25,7 @@ struct s_file *load_file(char *file_path)
 	{
 		read_l = read(file_desc, buffer, BUFFER_SIZE - 1);
 		buffer[read_l] = '\0';
-		str_dllist_add_last(file_part, buffer);
+		file_part = str_dllist_add_last(file_part, buffer);
 		file_s += read_l;	
 	}
 
@@ -35,8 +35,6 @@ struct s_file *load_file(char *file_path)
 	file->size = file_s;
 
 	struct s_str_dlinked_list *last_node = file_part;
-	while (last_node->next)
-		last_node = last_node->next;
 	while (last_node)
 	{
 		
@@ -64,12 +62,4 @@ void free_file(struct s_file *file)
 {
 	free(file->content);
 	free(file);
-}
-
-#include <stdio.h>
-int main()
-{
-	struct s_file *file = load_file("test.txt");
-	printf("%s", file->content);
-	free_file(file);
 }
